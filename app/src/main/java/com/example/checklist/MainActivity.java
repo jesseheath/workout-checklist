@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -18,10 +19,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        LinearLayout workoutInfo = new LinearLayout(this);
+        LinearLayout workoutList = findViewById(R.id.list);
+        workoutList.setOrientation(LinearLayout.VERTICAL);
+
         TextView dayTextField = findViewById(R.id.day);
         dayTextField.setText(getDay());
+
+        String[] workouts = getWorkOuts(day);
+
+        for(String workout: workouts) {
+            CheckBox check = new CheckBox(this);
+            check.setText(workout);
+            check.setBackgroundColor(Color.WHITE);
+            workoutInfo.addView(check);
+        }
     }
 
+    //get date for finding out muscle group
     static Date date = new Date();
     static SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
     static String day = formatter.format(date);
@@ -37,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         return "Error";
     }
 
+    //respective workouts for day
     private static String[] getWorkOuts(String choice){
         switch(choice.toLowerCase()) {
             case "monday": return new String[]{"Tricep Pulldown", "Weight Pullback", "Skull Crusher", "Seated Dips", "Curls", "Reverse curl", "Bent over row"};
